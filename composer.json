@@ -1,0 +1,22 @@
+{
+    "name": "jyun/mapsapi",
+    "description": "This is geographically related third-party api integration",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bryson",
+            "email": "jyun790430@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jyun\\Mapsapi\\": "src/"
+        }
+    }
+}
+
