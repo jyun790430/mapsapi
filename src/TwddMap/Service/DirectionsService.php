@@ -115,8 +115,8 @@ Class DirectionsService extends Service
     {
         $data = $this->DIRECTIONS_FORMAT;
 
-        $data['routes']['legs']['distance'] = $params['routes'][0]['legs'][0]['distance'] ?? 0;
-        $data['routes']['legs']['duration'] = $params['routes'][0]['legs'][0]['duration'] ?? 0;
+        $data['routes']['legs']['distance'] = $params['routes'][0]['legs'][0]['distance']['value'] ?? 0;
+        $data['routes']['legs']['duration'] = $params['routes'][0]['legs'][0]['duration']['value'] ?? 0;
 
         foreach($params['routes'][0]['legs'][0]['steps'] as $row) {
             $data['routes']['legs']['steps'][] = [
