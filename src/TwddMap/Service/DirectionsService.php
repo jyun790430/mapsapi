@@ -51,22 +51,24 @@ Class DirectionsService extends Service
         # Step1. Map8
         $params['mode'] = $modes[self::SOURCE_MAP8];
         $direction = $this->map8Client->directions($origin, $destination, $params);
-        $direction = $this->handle($direction, self::SOURCE_MAP8);
+        $directionHandle = $this->handle($direction, self::SOURCE_MAP8);
 
-        if ($direction !== false) {
-            $direction = $this->convertDataWithMap8($direction);
+        if ($directionHandle !== false) {
+            $direction = $this->convertDataWithMap8($directionHandle);
             return ResponseService::success(self::SOURCE_MAP8, $direction, $this->trace);
         }
 
         # Step2. GoogleMap
         $params['mode'] = $modes[self::SOURCE_GOOGLE_MAP];
         $direction = $this->googleMapClient->directions($origin, $destination, $params);
-        $direction = $this->handle($direction, self::SOURCE_GOOGLE_MAP);
+        $directionHandle = $this->handle($direction, self::SOURCE_GOOGLE_MAP);
 
-        if ($direction !== false) {
-            $direction = $this->convertDataWithGoogleMap($direction);
+        if ($directionHandle !== false) {
+            $direction = $this->convertDataWithGoogleMap($directionHandle);
             return ResponseService::success(self::SOURCE_GOOGLE_MAP, $direction, $this->trace);
         }
+
+        return ResponseService::error(self::SOURCE_GOOGLE_MAP, $direction['code'], $direction['msg'], $this->trace);
     }
 
     protected function handleData($data)

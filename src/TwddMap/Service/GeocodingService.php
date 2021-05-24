@@ -29,19 +29,19 @@ Class GeocodingService extends Service
     {
         # Step1. Map8
         $geocode = $this->map8Client->geocode($address);
-        $geocode = $this->handle($geocode, self::SOURCE_MAP8);
+        $geocodeHandle = $this->handle($geocode, self::SOURCE_MAP8);
 
-        if ($geocode !== false) {
-            $geocode = $this->convertDataWithMap8($geocode);
+        if ($geocodeHandle !== false) {
+            $geocode = $this->convertDataWithMap8($geocodeHandle);
             return ResponseService::success(self::SOURCE_MAP8, $geocode, $this->trace);
         }
 
         # Step2. GoogleMap
         $geocode = $this->googleMapClient->geocode($address);
-        $geocode = $this->handle($geocode, self::SOURCE_GOOGLE_MAP);
+        $geocodeHandle = $this->handle($geocode, self::SOURCE_GOOGLE_MAP);
 
-        if ($geocode !== false) {
-            $geocode = $this->convertDataWithGoogleMap($geocode);
+        if ($geocodeHandle !== false) {
+            $geocode = $this->convertDataWithGoogleMap($geocodeHandle);
             return ResponseService::success(self::SOURCE_GOOGLE_MAP, $geocode, $this->trace);
         }
 
@@ -68,19 +68,19 @@ Class GeocodingService extends Service
 
         # Step2. Map8
         $geocode = $this->map8Client->reverseGeocode($latlon);
-        $geocode = $this->handle($geocode, self::SOURCE_MAP8);
+        $geocodeHandle = $this->handle($geocode, self::SOURCE_MAP8);
 
-        if ($geocode !== false) {
-            $geocode = $this->convertDataWithMap8($geocode);
+        if ($geocodeHandle !== false) {
+            $geocode = $this->convertDataWithMap8($geocodeHandle);
             return ResponseService::success(self::SOURCE_MAP8, $geocode, $this->trace);
         }
 
         # Step3. GoogleMap
         $geocode = $this->googleMapClient->reverseGeocode($latlon);
-        $geocode = $this->handle($geocode, self::SOURCE_GOOGLE_MAP);
+        $geocodeHandle = $this->handle($geocode, self::SOURCE_GOOGLE_MAP);
 
-        if ($geocode !== false) {
-            $geocode = $this->convertDataWithGoogleMap($geocode);
+        if ($geocodeHandle !== false) {
+            $geocode = $this->convertDataWithGoogleMap($geocodeHandle);
             return ResponseService::success(self::SOURCE_GOOGLE_MAP, $geocode, $this->trace);
         }
 
