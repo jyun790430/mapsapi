@@ -20,7 +20,6 @@ Class Geocoding extends Service
      * @param string $address
      * @param array $params Query parameters: ['bounds', 'language', 'region', 'components']
      * @return array|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://developers.google.com/maps/documentation/geocoding/overview#GeocodingRequests
      */
@@ -38,7 +37,6 @@ Class Geocoding extends Service
      * @param $latlng
      * @param array $params Query parameters: ['language', 'result_type', 'location_type']
      * @return array|mixed $latlng ['lat', 'lng'] or latlng string
-     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://developers.google.com/maps/documentation/geocoding/overview#ReverseGeocoding
      */

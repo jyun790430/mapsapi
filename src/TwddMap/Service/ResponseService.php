@@ -1,8 +1,8 @@
 <?php
 
-namespace Jyun\Mapsapi\TwddMap;
+namespace Jyun\Mapsapi\TwddMap\Service;
 
-Class Response
+Class ResponseService
 {
     /**
      * Success format
@@ -14,13 +14,18 @@ Class Response
      */
     public static function success(string $source, array $data, array $trace = []):array
     {
-        return [
+        $data = [
             'source' => $source,
             'code'   => 200,
             'msg'    => 'SUCCESS',
             'data'   => $data,
-            'trace'  => $trace
         ];
+
+        if ($trace) {
+            $data['trace'] = $trace;
+        }
+
+        return $data;
     }
 
     /**
@@ -34,11 +39,16 @@ Class Response
      */
     public static function error(string $source, int $code, string $msg = 'ERROR', array $trace = []):array
     {
-        return [
+        $data = [
             'source' => $source,
             'code'   => $code,
             'msg'    => $msg,
-            'trace'  => $trace
         ];
+
+        if ($trace) {
+            $data['trace'] = $trace;
+        }
+
+        return $data;
     }
 }

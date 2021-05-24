@@ -24,11 +24,11 @@ Class Client extends BaseClient
     const SERVICE_NAMESPACE = "\\Jyun\\Mapsapi\\Map8\\";
 
     protected static $serviceMethodMap = [
-        //'placeSearch'       => 'PlaceSearch',
-        //'placeNearBySearch' => 'PlaceSearch',
-        //'placeTextSearch'   => 'PlaceSearch',
-        //'placeDetail'       => 'PlaceDetail',
-        //'placeAutoComplete' => 'PlaceAutoComplete',
+        'placeSearch'       => 'PlaceSearch',
+        'placeNearBySearch' => 'PlaceSearch',
+        'placeTextSearch'   => 'PlaceSearch',
+        'placeDetail'       => 'PlaceDetail',
+        'placeAutoComplete' => 'PlaceAutoComplete',
         'directions'        => 'Directions',
         'distanceMatrix'    => 'DistanceMatrix',
         'geocode'           => 'Geocoding',

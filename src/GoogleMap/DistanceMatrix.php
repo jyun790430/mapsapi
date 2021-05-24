@@ -21,7 +21,6 @@ Class DistanceMatrix extends Service
      * @param $destinations
      * @param array $params Query parameters: ['mode'', 'language', 'region', 'avoid', 'units' ...]
      * @return array|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://developers.google.com/maps/documentation/distance-matrix/overview#DistanceMatrixRequests
      */

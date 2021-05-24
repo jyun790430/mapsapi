@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "guzzlehttp/guzzle": "^6.3|^7.0"
+        "guzzlehttp/guzzle": "^6.3|^7.0",
+        "jenssegers/mongodb": "^3.6|^3.7|^3.8"
     },
     "autoload": {
         "psr-4": {

@@ -20,11 +20,10 @@ Class Geocoding extends Service
      * @param string $address
      * @param array $params Query parameters: ['postcode', 'formatted_address_embed_postcode']
      * @return array|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function geocode(Client $client, string $address, $params=[])
     {
-        $params['addresss'] = $address;
+        $params['address'] = $address;
 
         // Show Postal code
         $params['postcode'] = $params['postcode'] ?? true;
@@ -39,7 +38,6 @@ Class Geocoding extends Service
      * @param $latlng
      * @param array $params Query parameters: ['postcode', 'formatted_address_embed_postcode']
      * @return array|mixed $latlng ['lat', 'lng'] or latlng string
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function reverseGeocode(Client $client, $latlng, $params=[])
     {
@@ -53,6 +51,14 @@ Class Geocoding extends Service
         // Show Postal code
         $params['postcode'] = $params['postcode'] ?? true;
 
-        return self::requestHandler($client, self::API_URI, $params);
+        $results = self::requestHandler($client, self::API_URI, $params);
+
+        if ($results['code'] == 200) {
+            $_latlng = explode(',', $params['latlng']);
+            $results['data'][0]['geometry']['location']['lat'] = $_latlng[0];
+            $results['data'][0]['geometry']['location']['lng'] = $_latlng[1];
+        }
+
+        return $results;
     }
 }

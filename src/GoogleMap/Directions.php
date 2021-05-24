@@ -21,7 +21,6 @@ Class Directions extends Service
      * @param $destination
      * @param array $params Query parameters: ['mode', 'waypoints', 'alternatives', 'avoid', 'language', 'units', 'region' ...]
      * @return array|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @see https://developers.google.com/maps/documentation/directions/get-directions#DirectionsRequests
      */

@@ -1,46 +1,54 @@
-        ===============================================================================================
+安裝套包
+------------
 
-        use Jyun\Mapsapi\TwddMap\Geocoding;
-        use Jyun\Mapsapi\Map8\Client      as Map8Client;
-        use Jyun\Mapsapi\GoogleMap\Client as GoogleMapClient;
+在專案中執行下方指令:
 
-        ===============================================================================================
-        
-        # 共包
+    composer require jyun/mapsapi
+    
+安裝好後即可在專案內使用 :
 
-        $geocode        = Geocoding::geocode('貴陽街二段39號');
-        $reverseGeocode = Geocoding::reverseGeocode('25.0396476673,121.505226616');
+```php
+use Jyun\Mapsapi\TwddMap\Geocoding;
+```
 
-        ===============================================================================================
+---
 
-        # ENV file setting name is Key of MAP8_API_KEY
-        $Map8Client = new Map8Client();
+設定檔案
+-----
 
-        # Set the Key in Map8Client
-        $Map8Client = new Map8Client([
-            'key' => 'xxxxx',
-            'timeout' => 5
-        ]);
+在專案中有使遇到 Mysql, Mongo, Map8, GoogleMap, 都須個別配置 .env 請參照:
+ 
+```php
+Mysql, Mongo        # 自行配置
+MAP8_API_KEY=""     # 圖霸 KEY
+GOOGLE_API_KEY=""   # Google API KEY
+```
 
-        $geocode        = $Map8Client->geocode('貴陽街二段39號');
-        $reverseGeocode = $Map8Client->reverseGeocode('25.0396476673,121.505226616');
-        $reverseGeocode = $Map8Client->reverseGeocode([25.0396476673,121.505226616]);
-        $directions     = $Map8Client->directions('25.0097038,121.4401783', '25.0108898,121.4346963');
-        $distanceMatrix = $Map8Client->distanceMatrix('25.0097038,121.4401783', '25.0108898,121.4346963|25.0042938,121.4557153|25.0008008,121.4393843');
 
-        ===============================================================================================
+### Directions API
 
-        # ENV file setting name is Key of GOOGLE_API_KEY
-        $GoogleMapClient = new GoogleMapClient();
+```php
+use Jyun\Mapsapi\TwddMap\Directions;
 
-        # Set the Key in $GoogleMapClient
-        $GoogleMapClient = new GoogleMapClient([
-            'key' => 'xxxxxxx',
-            'timeout' => 5
-        ]);
+/**
+ * Directions
+ *
+ * @param $origin
+ * @param $destination
+ * @param $mode ['driving', 'walking', 'bicycling'], default='driving'
+ * @return array|mixed
+*/
+$directions = Directions::directions('25.0097038,121.4401783', '25.0108898,121.4346963');
+```
 
-        $geocode = $GoogleMapClient->geocode('貴陽街二段39號');
-        $reverseGeocode = $GoogleMapClient->reverseGeocode('25.0396476673,121.505226616');
-        $reverseGeocode = $GoogleMapClient->reverseGeocode([25.0396476673,121.505226616]);
-        $directions     = $GoogleMapClient->directions('25.0097038,121.4401783', '25.0108898,121.4346963');
-        $distanceMatrix = $GoogleMapClient->distanceMatrix('25.0097038,121.4401783', '25.0108898,121.4346963|25.0042938,121.4557153|25.0008008,121.4393843');
+
+### Geocoding API
+
+```php
+use Jyun\Mapsapi\TwddMap\Geocoding;
+
+$geocode = Geocoding::geocode('台北市內湖區瑞光路335號');
+
+$reverseGeocode = Geocoding::reverseGeocode('25.0396476673,121.505226616');
+```
+

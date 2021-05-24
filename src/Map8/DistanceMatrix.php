@@ -20,7 +20,6 @@ Class DistanceMatrix extends Service
      * @param $destinations
      * @param array $params
      * @return array|mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public static function distanceMatrix(Client $client, string $origins, string $destinations, $params=[])
     {
@@ -37,38 +36,5 @@ Class DistanceMatrix extends Service
         $params['destinationIndices'] = implode(',' ,range(1, count($destinations)));
 
         return self::requestHandler($client, $uri, $params);
-    }
-
-    /**
-     * Reverse multiple LatLon to LonLat
-     *
-     * @param $latLons
-     * @return array
-     */
-    protected static function reverseLatLonMultiple($latLons): array
-    {
-        $lonLatsExplode = explode('|', $latLons);
-
-        $lonLatsArray = [];
-        foreach($lonLatsExplode as $latLon) {
-            $lonLatsArray[] = self::reverseLatLon($latLon);
-        }
-
-        return $lonLatsArray;
-    }
-
-    /**
-     * Reverse LatLon to LonLat
-     *
-     * @param string $latLon
-     * @return string
-     */
-    protected static function reverseLatLon(string $latLon): string
-    {
-        $latLonExplode = explode(',', $latLon);
-        $arrayReverse  = array_reverse($latLonExplode);
-        $lonLat = implode(',', $arrayReverse);
-
-        return $lonLat;
     }
 }
