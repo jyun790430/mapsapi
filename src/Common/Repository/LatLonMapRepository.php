@@ -30,8 +30,11 @@ Class LatLonMapRepository
                     'coordinates' => $coordinates,
                 ],
                 '$maxDistance' => 50,
-            ])->first()->toArray();
-        } catch (\Exception $e) {
+            ])->first();
+
+            $data = ($data) ? $data->toArray() : [];
+
+        } catch (\Throwable $e) {
             Log::error($e);
 
             return [
