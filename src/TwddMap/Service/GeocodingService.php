@@ -10,6 +10,7 @@ Class GeocodingService extends Service
     private $GEOCODING_FORMAT = [
         'lat' => null,
         'lon' => null,
+        'country' => '',
         'zip' => null,
         'city_id' => null,
         'district_id' => null,
@@ -157,9 +158,12 @@ Class GeocodingService extends Service
 
         $route = '';
         $number = '';
+        $country = '';
         $addressComponents = $params['address_components'];
         foreach($addressComponents as $row) {
             switch ($row['types'][0]) {
+                case 'country':
+                    $country = $row['short_name'];
                 case 'administrative_area_level_1':
                     $data['city'] = $row['short_name'];
                     break;
@@ -177,6 +181,7 @@ Class GeocodingService extends Service
             }
         }
 
+        $data['country'] = $country;
         $data['addr'] = $route . $number;
 
         return $this->convertArea($data);
@@ -200,6 +205,35 @@ Class GeocodingService extends Service
         $params['city_id'] = $params['city_id'] ?: ($data['city_id'] ?? null);
         $params['district_id'] = $params['district_id'] ?: ($data['district_id'] ?? null);
 
+        # mongo, map8: Uncertain country origin
+        if (!$params['country']) {
+            $params['country'] = $this->isTaiwanArea($params) ? 'TW' : '';
+        }
+
         return $params;
+    }
+
+    /**
+     * Check is taiwan area
+     *
+     * @param array $params
+     * @return bool
+     */
+    private function isTaiwanArea(array $params): bool
+    {
+        $lat = $params['lat'];
+        $lon = $params['lon'];
+
+        if (!$lat || !$lon) {
+            return false;
+        }
+        if($lat > 25.29 || $lat < 21.5350) {
+            return false;
+        }
+        if($lon > 121.995 || $lon < 119.86) {
+            return false;
+        }
+
+        return true;
     }
 }
