@@ -57,7 +57,7 @@ Class AresRepository
                     'district.id as district_id',
                     'zip'
                 )
-                ->join('city', 'district_city.id', '=', 'city.id')
+                ->join('city', 'district.city_id', '=', 'city.id')
                 ->where('city.name', $city)
                 ->where('district.name', $district)
                 ->first();

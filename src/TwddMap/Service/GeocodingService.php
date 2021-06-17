@@ -108,15 +108,19 @@ Class GeocodingService extends Service
     {
         $data = $this->GEOCODING_FORMAT;
 
-        $data['lat'] = (float) $params['latlon'][1] ?? null;
-        $data['lon'] = (float) $params['latlon'][0] ?? null;
-        $data['zip'] = (int) $params['zip'] ?? null;
+        $data['lat'] = $params['latlon'][1] ?? null;
+        $data['lon'] = $params['latlon'][0] ?? null;
+        $data['zip'] = $params['zip'] ?? null;
         $data['city_id'] = $params['city_id'] ?? null;
         $data['district_id'] = $params['district_id'] ?? null;
         $data['city'] = $params['city'] ?? '';
         $data['district'] = $params['district'] ?? '';
         $data['addr'] = $params['addr'] ?? '';
         $data['address'] = $params['address'] ?? '';
+
+        $data['lat'] = ($data['lat']) ? floatval($data['lat']) : null;
+        $data['lon'] = ($data['lon']) ? floatval($data['lon']) : null;
+        $data['zip'] = ($data['zip']) ? intval($data['zip']) : null;
 
         return $data;
     }
@@ -131,13 +135,17 @@ Class GeocodingService extends Service
     {
         $data = $this->GEOCODING_FORMAT;
 
-        $data['lat'] = (float) $params['geometry']['location']['lat'] ?? null;
-        $data['lon'] = (float) $params['geometry']['location']['lng'] ?? null;
-        $data['zip'] = (int) $params['postcode'] ?? null;
+        $data['lat'] = $params['geometry']['location']['lat'] ?? null;
+        $data['lon'] = $params['geometry']['location']['lng'] ?? null;
+        $data['zip'] = $params['postcode'] ?? null;
         $data['city'] = $params['city'] ?? '';
         $data['district'] = $params['town'] ?? '';
         $data['addr'] = $params['name'] ?? '';
         $data['address'] = $data['zip'] . $params['formatted_address'] ?? '';
+
+        $data['lat'] = ($data['lat']) ? floatval($data['lat']) : null;
+        $data['lon'] = ($data['lon']) ? floatval($data['lon']) : null;
+        $data['zip'] = ($data['zip']) ? intval($data['zip']) : null;
 
         return $this->convertArea($data);
     }
