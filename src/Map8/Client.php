@@ -71,7 +71,7 @@ Class Client extends BaseClient
             $params['key'] = $key;
         }
 
-        $key  = $params['key'] ?? env('MAP8_API_KEY');
+        $key  = $params['key'] ?? env('MAPSAPI_MAP8_API_KEY');
         $lang = $params['language'] ?? null;
         $timeout = $params['timeout'] ?? null;
 

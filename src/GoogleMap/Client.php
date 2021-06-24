@@ -70,7 +70,7 @@ Class Client extends BaseClient
             $params['key'] = $key;
         }
 
-        $key  = $params['key'] ?? env('GOOGLE_API_KEY');
+        $key  = $params['key'] ?? env('MAPSAPI_GOOGLE_API_KEY');
         $lang = $params['language'] ?? null;
         $timeout = $params['timeout'] ?? null;
 
