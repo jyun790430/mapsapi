@@ -172,6 +172,7 @@ Class GeocodingService extends Service
             switch ($row['types'][0]) {
                 case 'country':
                     $country = $row['short_name'];
+                    break;
                 case 'administrative_area_level_1':
                     $data['city'] = $row['short_name'];
                     break;
