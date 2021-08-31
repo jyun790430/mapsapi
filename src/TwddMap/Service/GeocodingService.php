@@ -122,6 +122,8 @@ Class GeocodingService extends Service
         $data['lon'] = ($data['lon']) ? floatval($data['lon']) : null;
         $data['zip'] = ($data['zip']) ? intval($data['zip']) : null;
 
+        $data['address'] = $this->handleAddress($data['address']);
+
         return $data;
     }
 
@@ -146,6 +148,8 @@ Class GeocodingService extends Service
         $data['lat'] = ($data['lat']) ? floatval($data['lat']) : null;
         $data['lon'] = ($data['lon']) ? floatval($data['lon']) : null;
         $data['zip'] = ($data['zip']) ? intval($data['zip']) : null;
+
+        $data['address'] = $this->handleAddress($data['address']);
 
         return $this->convertArea($data);
     }
@@ -192,6 +196,8 @@ Class GeocodingService extends Service
 
         $data['country'] = $country;
         $data['addr'] = $route . $number;
+
+        $data['address'] = $this->handleAddress($data['address']);
 
         return $this->convertArea($data);
     }
@@ -244,5 +250,22 @@ Class GeocodingService extends Service
         }
 
         return true;
+    }
+
+    /**
+     * Handle address format
+     *
+     * @param $string
+     * @return null|string|string[]
+     */
+    private function handleAddress($string)
+    {
+        # replace zip
+        $string = preg_replace("/^\d*/", "", $string);
+
+        # replace taiwan char
+        $string = preg_replace("/台灣/", "", $string);
+
+        return $string;
     }
 }
