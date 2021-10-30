@@ -57,12 +57,12 @@ abstract class Service
     abstract protected function handleData($data);
 
     /**
-     * Returb handle data condition
+     * Return handle data condition
      *
      * @param $data
      * @return bool
      */
-    abstract protected function handleCondition($data): bool;
+    abstract protected function handleCondition(&$data, string $source): bool;
 
     /**
      * Handel handleCondition and handleData
@@ -73,7 +73,7 @@ abstract class Service
      */
     public function handle(array $data, string $source)
     {
-        if ($this->handleCondition($data)) {
+        if ($this->handleCondition($data, $source)) {
             return $this->handleData($data);
         } else {
             $this->trace[$source] = $data['msg'];

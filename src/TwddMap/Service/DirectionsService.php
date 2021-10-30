@@ -76,7 +76,7 @@ Class DirectionsService extends Service
         return $data['data'];
     }
 
-    protected function handleCondition($data): bool
+    protected function handleCondition(&$data, string $source): bool
     {
         return $data['code'] == 200 && isset($data['data']) && $data['data'];
     }

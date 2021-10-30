@@ -2,6 +2,7 @@
 
 namespace Jyun\Mapsapi\TwddMap\Service;
 
+use Jyun\Mapsapi\BaseClient;
 use Jyun\Mapsapi\Common\Repository\AresRepository;
 use Jyun\Mapsapi\Common\Repository\LatLonMapRepository;
 
@@ -93,9 +94,27 @@ Class GeocodingService extends Service
         return $data['data'][0];
     }
 
-    protected function handleCondition($data): bool
+    protected function handleCondition(&$data, string $source): bool
     {
-        return $data['code'] == 200 && isset($data['data'][0]);
+        $bool = $data['code'] == 200 && isset($data['data'][0]);
+
+        if ($bool === false) {
+            return false;
+        }
+
+        # Check Map8 geocode level
+        $_data = $this->handleData($data);
+        if ($source === self::SOURCE_MAP8 && isset($_data['level'])) {
+
+            if (!in_array($_data['level'], [3, 2, 1, 'fuzzy'])) {
+                $client = new BaseClient();
+                $data = $client->error('1001', 'Twdd: The level is not within a specific range');
+
+                return false;
+            }
+        }
+
+        return $bool;
     }
 
     /**
