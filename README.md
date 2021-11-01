@@ -18,6 +18,7 @@ use Jyun\Mapsapi\TwddMap\Geocoding;
 
 在專案中有使遇到 Mysql, Mongo, Map8, GoogleMap, 都須個別配置 .env 請參照:
  
+`目前 Mongo 因為資料太多錯誤決定停止使用` 
 ```php
 Mysql, Mongo        # 自行配置
 MAP8_API_KEY=""     # 圖霸 KEY

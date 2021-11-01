@@ -58,17 +58,17 @@ Class GeocodingService extends Service
      */
     public function reverseGeocode(string $latlon): array
     {
-        # Step1. Mongo
-        $latLonMapRepository = new LatLonMapRepository();
-        $geocode = $latLonMapRepository->getWithLatLon($latlon);
-        if (isset($geocode['msg']) || !$geocode) {
-            $this->setTrace(self::SOURCE_MONGO, (!$geocode) ? 'ZERO_RESULTS' : $geocode['msg']);
-        } else {
-            $geocode = $this->convertDataWithMongo($geocode);
-            return ResponseService::success(self::SOURCE_MONGO, $geocode, $this->trace);
-        }
+        # Step0. Mongo (tmp remove)
+        //$latLonMapRepository = new LatLonMapRepository();
+        //$geocode = $latLonMapRepository->getWithLatLon($latlon);
+        //if (isset($geocode['msg']) || !$geocode) {
+        //    $this->setTrace(self::SOURCE_MONGO, (!$geocode) ? 'ZERO_RESULTS' : $geocode['msg']);
+        //} else {
+        //    $geocode = $this->convertDataWithMongo($geocode);
+        //    return ResponseService::success(self::SOURCE_MONGO, $geocode, $this->trace);
+        //}
 
-        # Step2. Map8
+        # Step1. Map8
         $geocode = $this->map8Client->reverseGeocode($latlon);
         $geocodeHandle = $this->handle($geocode, self::SOURCE_MAP8);
 
@@ -77,7 +77,7 @@ Class GeocodingService extends Service
             return ResponseService::success(self::SOURCE_MAP8, $geocode, $this->trace);
         }
 
-        # Step3. GoogleMap
+        # Step2. GoogleMap
         $geocode = $this->googleMapClient->reverseGeocode($latlon);
         $geocodeHandle = $this->handle($geocode, self::SOURCE_GOOGLE_MAP);
 
