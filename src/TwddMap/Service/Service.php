@@ -45,7 +45,7 @@ abstract class Service
      */
     public function setTrace(string $source, string $msg): void
     {
-        $this->trace[$source] = $msg;
+        $this->trace[$source] = $this->trace[$source] ?? $msg;
     }
 
     /**
@@ -75,9 +75,9 @@ abstract class Service
     {
         if ($this->handleCondition($data, $source)) {
             return $this->handleData($data);
-        } else {
-            $this->trace[$source] = $data['msg'];
         }
+
+        $this->setTrace($source, $data['msg']);
 
         return false;
     }

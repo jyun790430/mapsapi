@@ -2,7 +2,6 @@
 
 namespace Jyun\Mapsapi\TwddMap\Service;
 
-use Jyun\Mapsapi\BaseClient;
 use Jyun\Mapsapi\Common\Repository\AresRepository;
 use Jyun\Mapsapi\Common\Repository\LatLonMapRepository;
 
@@ -29,13 +28,20 @@ Class GeocodingService extends Service
      */
     public function geocode(string $address): array
     {
-        # Step1. Map8
-        $geocode = $this->map8Client->geocode($address);
-        $geocodeHandle = $this->handle($geocode, self::SOURCE_MAP8);
+        # Check address exceeds five english words
+        if (str_word_count($address) < 5) {
 
-        if ($geocodeHandle !== false) {
-            $geocode = $this->convertDataWithMap8($geocodeHandle);
-            return ResponseService::success(self::SOURCE_MAP8, $geocode, $this->trace);
+            # Step1. Map8
+            $geocode = $this->map8Client->geocode($address);
+            $geocodeHandle = $this->handle($geocode, self::SOURCE_MAP8);
+
+            if ($geocodeHandle !== false) {
+                $geocode = $this->convertDataWithMap8($geocodeHandle);
+                return ResponseService::success(self::SOURCE_MAP8, $geocode, $this->trace);
+            }
+
+        } else {
+            $this->setTrace(self::SOURCE_MAP8, 'Twdd: The address exceeds five english words');
         }
 
         # Step2. GoogleMap
@@ -102,13 +108,13 @@ Class GeocodingService extends Service
             return false;
         }
 
-        # Check Map8 geocode level
+        # Map8
         $_data = $this->handleData($data);
-        if ($source === self::SOURCE_MAP8 && isset($_data['level'])) {
+        if ($source === self::SOURCE_MAP8) {
 
-            if (!in_array($_data['level'], [3, 2, 1, 'fuzzy'])) {
-                $client = new BaseClient();
-                $data = $client->error('1001', 'Twdd: The level is not within a specific range');
+            # Check geocode level
+            if (isset($_data['level']) && !in_array($_data['level'], [3, 2, 1, 'fuzzy'])) {
+                $this->setTrace(self::SOURCE_MAP8, 'Twdd: The level is not within a specific range');
 
                 return false;
             }
