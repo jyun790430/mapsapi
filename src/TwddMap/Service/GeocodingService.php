@@ -28,8 +28,8 @@ Class GeocodingService extends Service
      */
     public function geocode(string $address): array
     {
-        # Check address exceeds five english words
-        if (str_word_count($address) < 5) {
+        # Check address exceeds five english char
+        if (preg_match_all('/[a-zA-Z]/', $address) < 5) {
 
             # Step1. Map8
             $geocode = $this->map8Client->geocode($address);
@@ -41,7 +41,7 @@ Class GeocodingService extends Service
             }
 
         } else {
-            $this->setTrace(self::SOURCE_MAP8, 'Twdd: The address exceeds five english words');
+            $this->setTrace(self::SOURCE_MAP8, 'Twdd: The address exceeds five english char');
         }
 
         # Step2. GoogleMap
