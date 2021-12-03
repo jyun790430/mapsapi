@@ -64,15 +64,15 @@ Class GeocodingService extends Service
      */
     public function reverseGeocode(string $latlon): array
     {
-        # Step0. Mongo (tmp remove)
-        //$latLonMapRepository = new LatLonMapRepository();
-        //$geocode = $latLonMapRepository->getWithLatLon($latlon);
-        //if (isset($geocode['msg']) || !$geocode) {
-        //    $this->setTrace(self::SOURCE_MONGO, (!$geocode) ? 'ZERO_RESULTS' : $geocode['msg']);
-        //} else {
-        //    $geocode = $this->convertDataWithMongo($geocode);
-        //    return ResponseService::success(self::SOURCE_MONGO, $geocode, $this->trace);
-        //}
+        # Step0. Mongo
+        $latLonMapRepository = new LatLonMapRepository();
+        $geocode = $latLonMapRepository->getWithLatLon($latlon);
+        if (isset($geocode['msg']) || !$geocode) {
+            $this->setTrace(self::SOURCE_MONGO, (!$geocode) ? 'ZERO_RESULTS' : $geocode['msg']);
+        } else {
+            $geocode = $this->convertDataWithMongo($geocode);
+            return ResponseService::success(self::SOURCE_MONGO, $geocode, $this->trace);
+        }
 
         # Step1. Map8
         $geocode = $this->map8Client->reverseGeocode($latlon);
