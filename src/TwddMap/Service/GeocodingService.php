@@ -176,7 +176,7 @@ Class GeocodingService extends Service
 
         $data['lat'] = ($data['lat']) ? floatval($data['lat']) : null;
         $data['lon'] = ($data['lon']) ? floatval($data['lon']) : null;
-        $data['zip'] = ($data['zip']) ? intval($data['zip']) : null;
+        $data['zip'] = ($data['zip']) ? intval(substr($data['zip'], 0, 3)) : null;
 
         $data['address'] = $this->handleAddress($data['address']);
 
