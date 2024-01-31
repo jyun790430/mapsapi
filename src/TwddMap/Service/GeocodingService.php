@@ -209,11 +209,11 @@ Class GeocodingService extends Service
                 case 'administrative_area_level_1':
                     $data['city'] = $row['short_name'];
                     break;
-                case 'administrative_area_level_3':
+                case 'administrative_area_level_2':
                     $data['district'] = $row['short_name'];
                     break;
                 case 'postal_code':
-                    $data['zip'] = (int) $row['short_name'];
+                    $data['zip'] = (int) substr($row['short_name'], 0, 3);
                     break;
                 case 'route':
                     $route = $row['short_name'];
